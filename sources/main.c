@@ -113,18 +113,62 @@ int transform_lidar_in_speed(char *buffer)
 	return (speed);
 }
 
+int transform_lidar_in_rotation(char *buffer)
+{
+	int i = 0;
+	int nbr_value = 0;
+	int j = 0;
+	int result1 = 0;
+	int result2 = 0;
+	char *cmd = NULL;
+
+	for (; nbr_value < 3; i++) {
+		if (buffer[i] == ':')
+			nbr_value++;
+	}
+	for (j = i; buffer[j] != '.' ; j++);
+	buffer[j] = '\0';
+	result1 = my_getnbr(&buffer[i]);
+	for (; nbr_value < 34; i++) {
+		if (buffer[i] == ':')
+			nbr_value++;
+	}
+	for (j = i; buffer[j] != '.' ; j++);
+	buffer[j] = '\0';
+	result2 = my_getnbr(&buffer[i]);
+	cmd = malloc(sizeof(*cmd) * (snprintf(NULL, 0, "\nresult1 : %i && result2 : %i\n", result1, result2) + 1));
+	sprintf(cmd, "\nresult1 : %i && result2 : %i\n", result1, result2);
+	my_putstr_error(cmd);
+	free(cmd);
+	if (result1 < result2) {
+		cmd = malloc(sizeof(*cmd) * (snprintf(NULL, 0, "WHEELS_DIR:-0.%i\n", 1) + 1));
+		sprintf(cmd, "WHEELS_DIR:-0.%i\n", 3);
+		my_putstr_error(cmd);
+		buffer = send_command(buffer, cmd);
+	} else {
+		cmd = malloc(sizeof(*cmd) * (snprintf(NULL, 0, "WHEELS_DIR:0.%i\n", 1) + 1));
+		sprintf(cmd, "WHEELS_DIR:0.%i\n", 3);
+		my_putstr_error(cmd);
+		buffer = send_command(buffer, cmd);
+	}
+	free(cmd);
+	return (0);
+}
+
 int stop_car(char *buffer, int speed)
 {
+	speed = 1;
 	while (speed != 0) {
 		buffer = send_command(buffer, "GET_INFO_LIDAR\n");
 		if (buffer == NULL || check_if_ko(buffer) == 84)
 			return (84);
-		speed = transform_lidar_in_speed(buffer);
+//		speed = transform_lidar_in_speed(buffer);
+		transform_lidar_in_rotation(buffer);
 		free(buffer);
-		buffer = send_command_value(buffer, "CAR_FORWARD:0.%i\n", speed);
-		if (buffer == NULL || check_if_ko(buffer) == 84)
-			return (84);
-		free(buffer);
+//		buffer = send_command_value(buffer, "CAR_FORWARD:0.%i\n", speed);
+//		if (buffer == NULL || check_if_ko(buffer) == 84)
+//			return (84);
+//		free(buffer);
 	}
 	return (0);
 }
@@ -132,7 +176,7 @@ int stop_car(char *buffer, int speed)
 int main(void)
 {
 	char *buffer = NULL;
-	int speed = 99;
+	int speed = 3;
 
 	buffer = send_command(buffer, "START_SIMULATION\n");
 	if (buffer == NULL || check_if_ko(buffer) == 84)
