@@ -6,10 +6,7 @@
 ##
 
 SRC	=	sources/main.c \
-		sources/my_printf.c \
-		sources/needs_for_my_printf.c \
-		sources/my_put_nbr.c \
-		sources/my_getnbr.c 
+		sources/printing_functions.c
 
 OBJ	=	$(SRC:.c=.o)
 
