@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include "ai.h"
 
 int check_if_ko(char *buffer)
 {
@@ -60,9 +61,9 @@ char *send_command_value(char *buffer, char *cmd, float value)
 	}
 	buffer_cmd = malloc(sizeof(*buffer_cmd) * (snprintf(NULL, 0, cmd, value) + 1));
 	sprintf(buffer_cmd, cmd, value);
+	my_putstr(buffer_cmd);
 	free(buffer_cmd);
 	buffer = recup_std_input(buffer);
-//	my_putstr_error(buffer);
 	return (buffer);
 }
 
@@ -72,7 +73,7 @@ int transform_lidar_in_speed(char *buffer)
 	int nbr_value = 0;
 	int j = 0;
 	int result = 0;
-	int speed = 0;
+	float speed = 0;
 
 	for (; nbr_value < 19; i++) {
 		if (buffer[i] == ':')
@@ -88,13 +89,13 @@ int transform_lidar_in_speed(char *buffer)
 	if (result < 90)
 		speed = 0;
 	else if (result > 200)
-		speed = 999;
+		speed = 1;
 	else
-		speed = result;
+		speed = result / 100;
 	return (speed);
 }
 
-int stop_car(char *buffer, int speed)
+int stop_car(char *buffer, float speed)
 {
 	while (speed != 0) {
 		buffer = send_command(buffer, "GET_INFO_LIDAR\n");
@@ -102,7 +103,7 @@ int stop_car(char *buffer, int speed)
 			return (84);
 		speed = transform_lidar_in_speed(buffer);
 		free(buffer);
-		buffer = send_command_value(buffer, "CAR_FORWARD:0.%i\n", speed);
+		buffer = send_command_value(buffer, "CAR_FORWARD:%f\n", speed);
 		if (buffer == NULL || check_if_ko(buffer) == 84)
 			return (84);
 		free(buffer);
