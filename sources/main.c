@@ -26,55 +26,11 @@ int check_if_ko(char *buffer)
 	if (buffer == NULL)
 		return (84);
 	for (; buffer[i] != ':' && buffer[i] != '\0'; i++);
-	if (buffer[i] == '\0') {
-		free(buffer);
-		return (84);
-	}
-	if (buffer[i + 1] == 'K') {
+	if (buffer[i] == '\0' || buffer[i + 1] == 'K') {
 		free(buffer);
 		return (84);
 	}
 	return (0);
-}
-
-char *recup_std_input(void)
-{
-	size_t size = 0;
-	char *buffer = NULL;
-
-	if (getline(&buffer, &size, stdin) != -1) {
-		my_putstr_error(buffer);
-		return (buffer);
-	}
-	return (NULL);
-}
-
-char *send_command(char *cmd)
-{
-	char *buffer = NULL;
-
-	if (cmd == NULL) {
-		return (NULL);
-	}
-	my_putstr(cmd);
-	buffer = recup_std_input();
-	return (buffer);
-}
-
-char *send_command_value(char *cmd, float value)
-{
-	char *buffer_cmd = NULL;
-	char *buffer = NULL;
-
-	if (cmd == NULL) {
-		return (NULL);
-	}
-	buffer_cmd = malloc(sizeof(*buffer_cmd) * (snprintf(NULL, 0, cmd, value) + 1));
-	sprintf(buffer_cmd, cmd, value);
-	my_putstr(buffer_cmd);
-	free(buffer_cmd);
-	buffer = recup_std_input();
-	return (buffer);
 }
 
 int transform_lidar_in_speed(char *buffer)
