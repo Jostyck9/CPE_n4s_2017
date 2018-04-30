@@ -10,6 +10,15 @@
 #include <stdlib.h>
 #include "ai.h"
 
+char *destroy_buffer(char *buffer)
+{
+	if (buffer == NULL) {
+		return (NULL);
+	}
+	free(buffer);
+	return (NULL);
+}
+
 int check_if_ko(char *buffer)
 {
 	int i = 0;
@@ -28,42 +37,43 @@ int check_if_ko(char *buffer)
 	return (0);
 }
 
-char *recup_std_input(char *buffer)
+char *recup_std_input(void)
 {
 	size_t size = 0;
+	char *buffer = NULL;
 
 	if (getline(&buffer, &size, stdin) != -1) {
 		my_putstr_error(buffer);
 		return (buffer);
 	}
-	free(buffer);
 	return (NULL);
 }
 
-char *send_command(char *buffer, char *cmd)
+char *send_command(char *cmd)
 {
+	char *buffer = NULL;
+
 	if (cmd == NULL) {
-		free(buffer);
 		return (NULL);
 	}
 	my_putstr(cmd);
-	buffer = recup_std_input(buffer);
+	buffer = recup_std_input();
 	return (buffer);
 }
 
-char *send_command_value(char *buffer, char *cmd, float value)
+char *send_command_value(char *cmd, float value)
 {
 	char *buffer_cmd = NULL;
+	char *buffer = NULL;
 
 	if (cmd == NULL) {
-		free(buffer);
 		return (NULL);
 	}
 	buffer_cmd = malloc(sizeof(*buffer_cmd) * (snprintf(NULL, 0, cmd, value) + 1));
 	sprintf(buffer_cmd, cmd, value);
 	my_putstr(buffer_cmd);
 	free(buffer_cmd);
-	buffer = recup_std_input(buffer);
+	buffer = recup_std_input();
 	return (buffer);
 }
 
@@ -98,15 +108,15 @@ int transform_lidar_in_speed(char *buffer)
 int stop_car(char *buffer, float speed)
 {
 	while (speed != 0) {
-		buffer = send_command(buffer, "GET_INFO_LIDAR\n");
+		buffer = send_command("GET_INFO_LIDAR\n");
 		if (buffer == NULL || check_if_ko(buffer) == 84)
 			return (84);
 		speed = transform_lidar_in_speed(buffer);
-		free(buffer);
-		buffer = send_command_value(buffer, "CAR_FORWARD:%f\n", speed);
+		buffer = destroy_buffer(buffer);
+		buffer = send_command_value("CAR_FORWARD:%f\n", speed);
 		if (buffer == NULL || check_if_ko(buffer) == 84)
 			return (84);
-		free(buffer);
+		buffer = destroy_buffer(buffer);
 	}
 	return (0);
 }
@@ -116,19 +126,19 @@ int main(void)
 	char *buffer = NULL;
 	float speed = 1;
 
-	buffer = send_command(buffer, "START_SIMULATION\n");
+	buffer = send_command("START_SIMULATION\n");
 	if (buffer == NULL || check_if_ko(buffer) == 84)
 		return (84);
-	free(buffer);
-	buffer = send_command_value(buffer, "CAR_FORWARD:%f\n", speed);
+	buffer = destroy_buffer(buffer);
+	buffer = send_command_value("CAR_FORWARD:%f\n", speed);
 	if (buffer == NULL || check_if_ko(buffer) == 84)
 		return (84);
-	free(buffer);
+	buffer = destroy_buffer(buffer);
 	if (stop_car(buffer, speed) == 84)
 		return (84);
-	buffer = send_command(buffer, "STOP_SIMULATION\n");
+	buffer = send_command("STOP_SIMULATION\n");
 	if (buffer == NULL || check_if_ko(buffer) == 84)
 		return (84);
-	free(buffer);
+	buffer = destroy_buffer(buffer);
 	return (0);
 }
