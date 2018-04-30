@@ -6,8 +6,13 @@
 ##
 
 SRC	=	sources/main.c \
+<<<<<<< HEAD
 		sources/printing_functions.c	\
 		sources/check_end.c
+=======
+		sources/printing_functions.c \
+		sources/sending_command.c \
+>>>>>>> 744cae854d84ff9af4d526d8c77ef6aff3346914
 
 OBJ	=	$(SRC:.c=.o)
 
