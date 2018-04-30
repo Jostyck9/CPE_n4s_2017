@@ -10,6 +10,11 @@
 
 #include "cmd_n4s.h"
 
+#include <stdbool.h>
+#include <string.h>
+
+#define END_STR "1:OK:No errors so far:Track Cleared"
+
 void my_putchar_error(char a);
 void my_putstr_error(char *str);
 void my_putstr(char *str);
