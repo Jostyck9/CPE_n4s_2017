@@ -14,7 +14,7 @@ int red_lidar(char *buffer, int *i, char *str)
 	int result;
 	int j = 0;
 
-	for (; buffer[i[0]] &&  buffer[i[0]] != ':' && j != 6; \
+	for (; buffer[i[0]] && buffer[i[0]] != ':' && j != 6; \
 i[0]++, j++)
 		str[j] = buffer[i[0]];
 	str[j] = '\0';
