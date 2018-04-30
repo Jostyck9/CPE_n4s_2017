@@ -42,6 +42,11 @@
 *.idb
 *.pdb
 
+#binary
+n4s
+n4s_buffer
+pipes.sh
+
 # Kernel Module Compile Results
 *.mod*
 *.cmd
