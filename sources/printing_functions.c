@@ -5,6 +5,7 @@
 ** printing functions
 */
 
+#include <string.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -21,12 +22,20 @@ void my_putchar_error(char a)
 
 void my_putstr_error(char *str)
 {
-	for (int i = 0; str[i] != '\0'; i++)
-		my_putchar_error(str[i]);
+	int size = 0;
+
+	if (str != NULL) {
+		size = strlen(str);
+		write(2, str, size);
+	}
 }
 
 void my_putstr(char *str)
 {
-	for (int i = 0; str[i] != '\0'; i++)
-		my_putchar(str[i]);
+	int size = 0;
+
+	if (str != NULL) {
+		size = strlen(str);
+		write(1, str, size);
+	}
 }

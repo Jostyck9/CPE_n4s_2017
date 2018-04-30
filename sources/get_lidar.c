@@ -17,7 +17,7 @@ int red_lidar(char *buffer, int *i, char *str)
 	for (; buffer[i[0]] &&  buffer[i[0]] != ':' && j != 6; \
 i[0]++, j++)
 		str[j] = buffer[i[0]];
-	str[j] != '\0';
+	str[j] = '\0';
 	result = atoi(str);
 	if (result == 0)
 		result = -1;
@@ -45,17 +45,4 @@ int *get_lidar(char *buffer)
 	}
 	free(str);
 	return (res);
-}
-
-int main(int ac, char **av)
-{
-	int *res;
-
-	if (ac != 2)
-		return (84);
-	res = get_lidar(av[1]);
-	for (int i = 0; res[i] != -1; i++)
-		printf("ligne %i : %i\n", i + 1, res[i]);
-	free(res);
-	return (0);
 }

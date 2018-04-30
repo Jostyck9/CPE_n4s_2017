@@ -8,6 +8,9 @@
 SRC	=	sources/main.c \
 		sources/printing_functions.c \
 		sources/sending_command.c \
+		sources/algo/speed.c \
+		sources/algo/algo.c \
+		sources/get_lidar.c
 
 OBJ	=	$(SRC:.c=.o)
 

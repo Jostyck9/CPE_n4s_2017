@@ -19,80 +19,17 @@ char *destroy_buffer(char *buffer)
 	return (NULL);
 }
 
-int check_if_ko(char *buffer)
-{
-	int i = 0;
-
-	if (buffer == NULL)
-		return (84);
-	for (; buffer[i] != ':' && buffer[i] != '\0'; i++);
-	if (buffer[i] == '\0' || buffer[i + 1] == 'K') {
-		free(buffer);
-		return (84);
-	}
-	return (0);
-}
-
-int transform_lidar_in_speed(char *buffer)
-{
-	int i = 0;
-	int nbr_value = 0;
-	int j = 0;
-	int result = 0;
-	float speed = 0;
-
-	for (; nbr_value < 19; i++) {
-		if (buffer[i] == ':')
-			nbr_value++;
-	}
-	for (j = i; buffer[j] != '.' ; j++);
-	buffer[j] = '\0';
-	my_putchar_error('\n');
-	my_putstr_error(&buffer[i]);
-	my_putchar_error('\n');
-	result = atoi(&buffer[i]);
-	result /= 10;
-	if (result < 90)
-		speed = 0;
-	else if (result > 200)
-		speed = 1;
-	else
-		speed = result / 100;
-	return (speed);
-}
-
-int stop_car(char *buffer, float speed)
-{
-	while (speed != 0) {
-		buffer = send_command("GET_INFO_LIDAR\n");
-		if (buffer == NULL || check_if_ko(buffer) == 84)
-			return (84);
-		speed = transform_lidar_in_speed(buffer);
-		buffer = destroy_buffer(buffer);
-		buffer = send_command_value("CAR_FORWARD:%f\n", speed);
-		if (buffer == NULL || check_if_ko(buffer) == 84)
-			return (84);
-		buffer = destroy_buffer(buffer);
-	}
-	return (0);
-}
-
 int main(void)
 {
 	char *buffer = NULL;
-	float speed = 1;
 
-	buffer = send_command("START_SIMULATION\n");
+	buffer = send_command(START_N4S);
 	if (buffer == NULL || check_if_ko(buffer) == 84)
 		return (84);
 	buffer = destroy_buffer(buffer);
-	buffer = send_command_value("CAR_FORWARD:%f\n", speed);
-	if (buffer == NULL || check_if_ko(buffer) == 84)
+	if (stop_car(buffer) == 84)
 		return (84);
-	buffer = destroy_buffer(buffer);
-	if (stop_car(buffer, speed) == 84)
-		return (84);
-	buffer = send_command("STOP_SIMULATION\n");
+	buffer = send_command(STOP_N4S);
 	if (buffer == NULL || check_if_ko(buffer) == 84)
 		return (84);
 	buffer = destroy_buffer(buffer);
