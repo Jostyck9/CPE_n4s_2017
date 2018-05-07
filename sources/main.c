@@ -8,30 +8,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
-
-void my_putchar(char a)
-{
-	write(1, &a, 1);
-}
-
-void my_putchar_error(char a)
-{
-	write(2, &a, 1);
-}
-
-void my_putstr_error(char *str)
-{
-	for (int i = 0; str[i] != '\0'; i++)
-		my_putchar_error(str[i]);
-}
-
-void my_putstr(char *str)
-{
-	for (int i = 0; str[i] != '\0'; i++)
-		my_putchar(str[i]);
-}
-
-//====================================================
+#include "ai.h"
 
 int check_if_ko(char *buffer)
 {
@@ -74,13 +51,18 @@ char *send_command(char *buffer, char *cmd)
 	return (buffer);
 }
 
-char *send_command_value(char *buffer, char *cmd, int value)
+char *send_command_value(char *buffer, char *cmd, float value)
 {
+	char *buffer_cmd = NULL;
+
 	if (cmd == NULL) {
 		free(buffer);
 		return (NULL);
 	}
-	my_printf(cmd, value);
+	buffer_cmd = malloc(sizeof(*buffer_cmd) * (snprintf(NULL, 0, cmd, value) + 1));
+	sprintf(buffer_cmd, cmd, value);
+	my_putstr(buffer_cmd);
+	free(buffer_cmd);
 	buffer = recup_std_input(buffer);
 	return (buffer);
 }
@@ -91,7 +73,7 @@ int transform_lidar_in_speed(char *buffer)
 	int nbr_value = 0;
 	int j = 0;
 	int result = 0;
-	int speed = 0;
+	float speed = 0;
 
 	for (; nbr_value < 19; i++) {
 		if (buffer[i] == ':')
@@ -102,18 +84,18 @@ int transform_lidar_in_speed(char *buffer)
 	my_putchar_error('\n');
 	my_putstr_error(&buffer[i]);
 	my_putchar_error('\n');
-	result = my_getnbr(&buffer[i]);
+	result = atoi(&buffer[i]);
 	result /= 10;
 	if (result < 90)
 		speed = 0;
 	else if (result > 200)
-		speed = 999;
+		speed = 1;
 	else
-		speed = result;
+		speed = result / 100;
 	return (speed);
 }
 
-int stop_car(char *buffer, int speed)
+int stop_car(char *buffer, float speed)
 {
 	while (speed != 0) {
 		buffer = send_command(buffer, "GET_INFO_LIDAR\n");
@@ -121,7 +103,7 @@ int stop_car(char *buffer, int speed)
 			return (84);
 		speed = transform_lidar_in_speed(buffer);
 		free(buffer);
-		buffer = send_command_value(buffer, "CAR_FORWARD:0.%i\n", speed);
+		buffer = send_command_value(buffer, "CAR_FORWARD:%f\n", speed);
 		if (buffer == NULL || check_if_ko(buffer) == 84)
 			return (84);
 		free(buffer);
@@ -132,13 +114,13 @@ int stop_car(char *buffer, int speed)
 int main(void)
 {
 	char *buffer = NULL;
-	int speed = 99;
+	float speed = 1;
 
 	buffer = send_command(buffer, "START_SIMULATION\n");
 	if (buffer == NULL || check_if_ko(buffer) == 84)
 		return (84);
 	free(buffer);
-	buffer = send_command_value(buffer, "CAR_FORWARD:0.%i\n", speed);
+	buffer = send_command_value(buffer, "CAR_FORWARD:%f\n", speed);
 	if (buffer == NULL || check_if_ko(buffer) == 84)
 		return (84);
 	free(buffer);
