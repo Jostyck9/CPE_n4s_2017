@@ -12,6 +12,7 @@ SRC	=	sources/main.c \
 		sources/algo/speed.c \
 		sources/algo/algo.c \
 		sources/algo/direction.c \
+		sources/algo/update_car.c \
 		sources/get_lidar.c
 
 OBJ	=	$(SRC:.c=.o)

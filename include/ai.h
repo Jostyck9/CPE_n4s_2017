@@ -13,7 +13,11 @@
 #include <stdbool.h>
 #include <string.h>
 
-#define END_STR "Track Cleared"
+struct car_s {
+	float speed;
+	float direction;
+};
+typedef struct car_s car_t;
 
 void my_putchar_error(char a);
 void my_putstr_error(char *str);
@@ -22,9 +26,11 @@ char *send_command_value(char *cmd, float value);
 char *send_command(char *cmd);
 float accelerate_car(int *lidar);
 int *get_lidar(char *buffer);
-int stop_car(char *buffer);
+bool stop_car(void);
 char *destroy_buffer(char *buffer);
-int check_if_ko(char *buffer);
+bool check_if_ko(char *buffer);
 float direction_car(int *lidar);
+bool update_car(car_t info, bool *end);
+bool check_end(char *str);
 
 #endif //_N4S_H_

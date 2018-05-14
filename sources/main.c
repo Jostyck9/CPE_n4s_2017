@@ -24,13 +24,13 @@ int main(void)
 	char *buffer = NULL;
 
 	buffer = send_command(START_N4S);
-	if (buffer == NULL || check_if_ko(buffer) == 84)
+	if (buffer == NULL || check_if_ko(buffer) == true)
 		return (84);
 	buffer = destroy_buffer(buffer);
-	if (stop_car(buffer) == 84)
+	if (stop_car() == false)
 		return (84);
 	buffer = send_command(STOP_N4S);
-	if (buffer == NULL || check_if_ko(buffer) == 84)
+	if (buffer == NULL || check_if_ko(buffer) == true)
 		return (84);
 	buffer = destroy_buffer(buffer);
 	return (0);
