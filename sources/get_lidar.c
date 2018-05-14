@@ -7,7 +7,15 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <math.h>
+
+bool is_number(char c)
+{
+	if (c < '0' || c > '9')
+		return (false);
+	return (true);
+}
 
 int red_lidar(char *buffer, int *i, char *str)
 {
@@ -34,7 +42,7 @@ int *get_lidar(char *buffer)
 	for (; buffer[i] != ':'; i++);
 	for (; buffer[i] < '0' || buffer[i] > '9'; i++);
 	for (; buffer[i] != '\0'; i++) {
-		if (k != 0 && (buffer[i] == 'N' || res[k - 1] == -1)) {
+		if (k != 0 && (is_number(buffer[i]) == false || res[k - 1] == -1)) {
 			res[k] = -1;
 			break;
 		}
