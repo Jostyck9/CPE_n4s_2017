@@ -41,6 +41,10 @@ int stop_car(char *buffer)
 			buffer = send_command_value(SPEED_CAR, speed);
 			if (buffer == NULL || check_if_ko(buffer) == 84)
 				return (84);
+			if (check_end(buffer)) {
+				destroy_buffer(buffer);
+				return (0);
+			}
 			buffer = destroy_buffer(buffer);
 		}
 		speed = 1;

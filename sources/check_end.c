@@ -5,11 +5,41 @@
 ** Check if the car ended the map.
 */
 
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include "ai.h"
+
+bool check_cmd_end(char *cmd)
+{
+	char *str = cmd;
+	char *token = NULL;
+
+	do {
+		token = strtok(str, ":");
+		str = NULL;
+		if (token != NULL) {
+			dprintf(2, "print\n");
+			dprintf(2, "%s\n", token);
+			dprintf(2, "NO\n");
+		}
+		if (token != NULL && strcmp(token, END_STR) == 0) {
+			free(cmd);
+			return (true);
+		}
+	} while (token != NULL);
+	free(cmd);
+	return (false);
+}
 
 bool check_end(char *str)
 {
-	if (strcmp(str, END_STR) == 0)
-		return (true);
-	return (false);
+	char *res = NULL;
+
+	if (str == NULL)
+		return (false);
+	res = strdup(str);
+	if (res == NULL)
+		return (false);
+	return (check_cmd_end(res));
 }
