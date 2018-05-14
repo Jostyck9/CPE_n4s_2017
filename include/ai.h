@@ -25,5 +25,6 @@ int *get_lidar(char *buffer);
 int stop_car(char *buffer);
 char *destroy_buffer(char *buffer);
 int check_if_ko(char *buffer);
+float direction_car(int *lidar);
 
 #endif //_N4S_H_
