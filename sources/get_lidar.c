@@ -19,8 +19,6 @@ i[0]++, j++)
 		str[j] = buffer[i[0]];
 	str[j] = '\0';
 	result = atoi(str);
-	if (result == 0)
-		result = -1;
 	return (result);
 }
 
@@ -37,7 +35,7 @@ int *get_lidar(char *buffer)
 	for (; buffer[i] < '0' || buffer[i] > '9'; i++);
 	for (; buffer[i] != '\0'; i++) {
 		if (k != 0 && (buffer[i] == 'N' || res[k - 1] == -1)) {
-			res[k - 1] = -1;
+			res[k] = -1;
 			break;
 		}
 		res[k] = red_lidar(buffer, &i, str);
