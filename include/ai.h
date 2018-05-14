@@ -13,7 +13,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-#define END_STR "Track Cleared\n"
+#define END_STR "Track Cleared"
 
 void my_putchar_error(char a);
 void my_putstr_error(char *str);

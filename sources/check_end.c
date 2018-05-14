@@ -18,11 +18,6 @@ bool check_cmd_end(char *cmd)
 	do {
 		token = strtok(str, ":");
 		str = NULL;
-		if (token != NULL) {
-			dprintf(2, "print\n");
-			dprintf(2, "%s\n", token);
-			dprintf(2, "NO\n");
-		}
 		if (token != NULL && strcmp(token, END_STR) == 0) {
 			free(cmd);
 			return (true);

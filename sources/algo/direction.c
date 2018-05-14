@@ -5,9 +5,9 @@
 ** direction of the car
 */
 
-#include "ai.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "ai.h"
 
 float calc_medium(int val1, int val2, int val3, int val4)
 {
@@ -41,5 +41,6 @@ float direction_car(int *lidar)
 			result = (1 - (medium_l / medium_r));
 		result *= -1;
 	}
+	free(lidar);
 	return (result);
 }
