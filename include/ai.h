@@ -32,5 +32,6 @@ bool check_if_ko(char *buffer);
 float direction_car(int *lidar);
 bool update_car(car_t info, bool *end);
 bool check_end(char *str);
+bool is_too_close_wall(int *lidar, car_t *info);
 
 #endif //_N4S_H_
