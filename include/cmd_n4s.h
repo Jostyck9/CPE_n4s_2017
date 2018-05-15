@@ -8,7 +8,7 @@
 #ifndef _CMD_N4S_H_
 #define _CMD_N4S_H_
 
-#define LIMIT_WALL (914)
+#define LIMIT_WALL (750)
 #define END_STR "Track Cleared"
 
 #define START_N4S ("START_SIMULATION\n")

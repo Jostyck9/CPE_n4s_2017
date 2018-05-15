@@ -17,37 +17,51 @@ bool check_if_ko(char *buffer)
 		return (true);
 	for (; buffer[i] != ':' && buffer[i] != '\0'; i++);
 	if (buffer[i] == '\0' || buffer[i + 1] == 'K') {
-		free(buffer);
 		return (true);
 	}
 	return (false);
 }
 
-int get_forward_distance(int *lidar)
+float get_forward_distance(float *lidar, car_t *info)
 {
 	if (lidar == NULL)
 		return (0);
+	if (info->direction > 0) {
+		return (lidar[13]);
+	}
+	if (info->direction < 0) {
+		return (lidar[17]);
+	}
 	return (lidar[15]);
 }
 
-bool manage_lidar(int *lidar, car_t *info)
+bool manage_lidar(float *lidar, car_t *info)
 {
-	int forward = get_forward_distance(lidar);
+	float forward = get_forward_distance(lidar, info);
 
-	//check dist coté
-	if (forward > LIMIT_WALL) {
+	if (forward > (LIMIT_WALL * 1.5)) {
+		dprintf(2, "\t\tGo FORWARD\n");
+		is_too_close_wall(lidar, info);
+		dprintf(2, "\t\tdirectoin %f\n", info->direction);
+		dprintf(2, "\t\tspeed %f\n", info->speed);
 		info->speed = 1;
-		info->direction = 0;
+		return (true);
+	} else if (forward > LIMIT_WALL) {
+		dprintf(2, "\t\tGo FORWARD\n");
+		is_too_close_wall(lidar, info);
+		dprintf(2, "\t\tdirectoin %f\n", info->direction);
+		dprintf(2, "\t\tspeed %f\n", info->speed);
+		info->speed = 0.5;
 		return (true);
 	}
 	info->speed = accelerate_car(lidar);
-	info->direction = direction_car(lidar);
+	info->direction = direction_car(lidar, info->speed);
 	return (true);
 }
 
 bool stop_car(void)
 {
-	int *lidar;
+	float *lidar;
 	char *buffer;
 	bool end = false;
 	car_t info = {0, 0};

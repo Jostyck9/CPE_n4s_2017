@@ -9,15 +9,15 @@
 #include <stdio.h>
 #include "ai.h"
 
-float calc_medium(int val1, int val2, int val3, int val4)
+float calc_medium(float val1, float val2, float val3)
 {
 	float result = 0;
 
-	result = (val1 + val2 + val3 + val4) / 4;
+	result = (val1 + val2 + val3) / 4;
 	return (result);
 }
 
-float direction_car(int *lidar)
+float direction_car(float *lidar, float speed)
 {
 	float medium_l = 0;
 	float medium_r = 0;
@@ -27,16 +27,17 @@ float direction_car(int *lidar)
 	if (lidar == NULL) {
 		return (0);
 	}
-	medium_l = calc_medium(lidar[0], lidar[1], lidar[2], lidar[3]);
-	medium_r = calc_medium(lidar[28], lidar[29], lidar[30], lidar[31]);
+	medium_l = calc_medium(lidar[0], lidar[1], lidar[2]);
+	medium_r = calc_medium(lidar[28], lidar[29], lidar[30]);
 	average = medium_l - medium_r;
-	if (average > 250) {
+	if (average > 0) {
 		if (medium_l != 0)
 			result = ((medium_r / medium_l));
-	} else if (average < -250) {
+	} else if (average < 0) {
 		if (medium_r != 0)
 			result = ((medium_l / medium_r));
 		result *= -1;
 	}
+	dprintf(2, "\t\tdirection : %f\n", result);
 	return (result);
 }
