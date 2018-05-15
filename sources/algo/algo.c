@@ -24,37 +24,28 @@ bool check_if_ko(char *buffer)
 
 float get_forward_distance(float *lidar, car_t *info)
 {
+	float result = 0;
+
 	if (lidar == NULL)
 		return (0);
-	if (info->direction > 0) {
-		return (lidar[13]);
-	}
-	if (info->direction < 0) {
-		return (lidar[17]);
-	}
-	return (lidar[15]);
+	result = (lidar[13] + lidar[14] + lidar[15]);
+	result /= 3;
+	return (result);
 }
 
 bool manage_lidar(float *lidar, car_t *info)
 {
 	float forward = get_forward_distance(lidar, info);
 
-	if (forward > (LIMIT_WALL * 1.5)) {
+	if (forward > (LIMIT_WALL) && lidar[31] > 10 && lidar[0] > 10) {
 		dprintf(2, "\t\tGo FORWARD\n");
 		is_too_close_wall(lidar, info);
 		dprintf(2, "\t\tdirectoin %f\n", info->direction);
 		dprintf(2, "\t\tspeed %f\n", info->speed);
-		info->speed = 1;
-		return (true);
-	} else if (forward > LIMIT_WALL) {
-		dprintf(2, "\t\tGo FORWARD\n");
-		is_too_close_wall(lidar, info);
-		dprintf(2, "\t\tdirectoin %f\n", info->direction);
-		dprintf(2, "\t\tspeed %f\n", info->speed);
-		info->speed = 0.5;
+		info->speed = GO_SPEED_MAX;
 		return (true);
 	}
-	info->speed = accelerate_car(lidar);
+	info->speed = accelerate_car(lidar, forward);
 	info->direction = direction_car(lidar, info->speed);
 	return (true);
 }
