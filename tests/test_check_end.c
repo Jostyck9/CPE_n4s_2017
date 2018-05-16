@@ -1,8 +1,8 @@
 /*
-** EPITECH PROJECT, 2017
-** test_touched_watered.c
+1;4804;0c** EPITECH PROJECT, 2017
+** test_check_end.c
 ** File description:
-** test touched_watered function.
+** tests function check_end.
 */
 
 #include <criterion/criterion.h>
@@ -12,7 +12,7 @@ Test(check_end, good_input)
 {
 	char *str = "1:OK:No errors so far:Track Cleared";
 
-	cr_assert_eq(true,  check_end(str));
+	cr_assert_eq(true, check_end(str));
 }
 
 Test(check_end, bad_input_but_work)

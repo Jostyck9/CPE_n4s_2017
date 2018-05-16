@@ -9,19 +9,6 @@
 #include <stdio.h>
 #include "ai.h"
 
-bool check_if_ko(char *buffer)
-{
-	int i = 0;
-
-	if (buffer == NULL)
-		return (true);
-	for (; buffer[i] != ':' && buffer[i] != '\0'; i++);
-	if (buffer[i] == '\0' || buffer[i + 1] == 'K') {
-		return (true);
-	}
-	return (false);
-}
-
 float get_forward_distance(float *lidar, car_t *info)
 {
 	float result = 0;
