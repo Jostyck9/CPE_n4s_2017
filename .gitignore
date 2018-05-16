@@ -46,6 +46,7 @@
 n4s
 n4s_buffer
 pipes.sh
+pipesdebug.sh
 
 # Kernel Module Compile Results
 *.mod*

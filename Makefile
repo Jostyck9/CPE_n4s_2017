@@ -6,7 +6,16 @@
 ##
 
 SRC	=	sources/main.c \
-		sources/printing_functions.c
+		sources/printing_functions.c	\
+		sources/check_end.c \
+		sources/sending_command.c \
+		sources/algo/check_if_ko.c	\
+		sources/algo/close_wall.c \
+		sources/algo/speed.c \
+		sources/algo/algo.c \
+		sources/algo/direction.c \
+		sources/algo/update_car.c \
+		sources/get_lidar.c \
 
 OBJ	=	$(SRC:.c=.o)
 
@@ -33,7 +42,7 @@ re:		fclean all
 
 tests_run :
 			make -C tests/
-			./units
+			./tests/units
 
 tests_fclean :
 				make fclean -C tests/
