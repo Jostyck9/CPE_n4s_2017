@@ -9,10 +9,10 @@
 #define _CMD_N4S_H_
 
 #define GO_SPEED_MAX (1)
-#define COEF_ROTATE (1.5)
+#define COEF_ROTATE (0.3)
 #define LIMIT_WALL_DRIFT (300)
 #define LIMIT_WALL (850)
-#define SPEED_DRIFT (1)
+#define SPEED_DRIFT (0.7)
 #define END_STR "Track Cleared"
 
 #define START_N4S ("START_SIMULATION\n")

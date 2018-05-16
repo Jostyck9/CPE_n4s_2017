@@ -45,8 +45,9 @@ bool manage_lidar(float *lidar, car_t *info)
 		info->speed = GO_SPEED_MAX;
 		return (true);
 	}
-	info->speed = accelerate_car(lidar, forward);
+	info->speed = SPEED_DRIFT;
 	info->direction = direction_car(lidar, info->speed);
+	info->speed = accelerate_car(lidar, info->direction);
 	return (true);
 }
 
