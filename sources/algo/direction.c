@@ -21,7 +21,7 @@ float adapt_dir_to_speed(float dir, float dist)
 {
 	float result = 0;
 
-	dprintf(2, "\t\tBefore adapting %f\n", dir);
+//	dprintf(2, "\t\tBefore adapting %f\n", dir);
 	result = dir * (1 - (dist / LIMIT_WALL));
 	if (result > 1)
 		result = 1;
@@ -40,7 +40,7 @@ float direction_car(float *lidar, float speed, float forward)
 	}
 	medium_l = calc_medium(lidar[0], lidar[1]);
 	medium_r = calc_medium(lidar[30], lidar[31]);
-	dprintf(2, "\t\tmedium_l %f && medium_r %f\n", medium_l, medium_r);
+//	dprintf(2, "\t\tmedium_l %f && medium_r %f\n", medium_l, medium_r);
 	average = medium_l - medium_r;
 	if (average > 0) {
 		if (medium_l != 0)
@@ -52,6 +52,6 @@ float direction_car(float *lidar, float speed, float forward)
 		result = adapt_dir_to_speed(result, lidar[15]);
 		result *= -1;
 	}
-	dprintf(2, "\t\tdirection : %f\n", result);
+//	dprintf(2, "\t\tdirection : %f\n", result);
 	return (result);
 }

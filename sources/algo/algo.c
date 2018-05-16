@@ -25,10 +25,10 @@ bool manage_lidar(float *lidar, car_t *info)
 	float forward = get_forward_distance(lidar);
 
 	if (forward > LIMIT_WALL && lidar[31] > 10 && lidar[0] > 10) {
-		dprintf(2, "\t\tGo FORWARD\n");
+//		dprintf(2, "\t\tGo FORWARD\n");
 		is_too_close_wall(lidar, info);
-		dprintf(2, "\t\tdirectoin %f\n", info->direction);
-		dprintf(2, "\t\tspeed %f\n", info->speed);
+//		dprintf(2, "\t\tdirectoin %f\n", info->direction);
+//		dprintf(2, "\t\tspeed %f\n", info->speed);
 		info->speed = GO_SPEED_MAX;
 		return (true);
 	}
@@ -68,7 +68,7 @@ bool stop_car(void)
 			free(buffer);
 			return (false);
 		}
-		dprintf(2, "End update\n");
+//		dprintf(2, "End update\n");
 		buffer = destroy_buffer(buffer);
 		free(lidar);
 	}

@@ -20,6 +20,6 @@ float accelerate_car(float *lidar, float dir)
 	if (dir < 0.2)
 		dir = 0.2;
 	speed = SPEED_DRIFT * dir;
-	dprintf(2, "\t\tspeed %f\n", speed);
+//	dprintf(2, "\t\tspeed %f\n", speed);
 	return (speed);
 }

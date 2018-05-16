@@ -15,7 +15,7 @@ bool update_speed(car_t info, bool *end)
 	char *buffer = NULL;
 
 	if (info.speed != last_speed) {
-		dprintf(2, "\nUpdate speed\n");
+//		dprintf(2, "\nUpdate speed\n");
 		buffer = send_command_value(SPEED_CAR, info.speed);
 		last_speed = info.speed;
 		if (buffer == NULL || check_if_ko(buffer) == true) {
@@ -34,7 +34,7 @@ bool update_direction(car_t info, bool *end)
 	char *buffer = NULL;
 
 	if (info.direction != last_dir) {
-		dprintf(2, "\nUpdate direction\n");
+//		dprintf(2, "\nUpdate direction\n");
 		buffer = send_command_value(TURN_CAR, info.direction);
 		last_dir = info.direction;
 		if (buffer == NULL || check_if_ko(buffer) == true) {
