@@ -22,7 +22,7 @@ bool check_if_ko(char *buffer)
 	return (false);
 }
 
-float get_forward_distance(float *lidar, car_t *info)
+float get_forward_distance(float *lidar)
 {
 	float result = 0;
 
@@ -35,7 +35,7 @@ float get_forward_distance(float *lidar, car_t *info)
 
 bool manage_lidar(float *lidar, car_t *info)
 {
-	float forward = get_forward_distance(lidar, info);
+	float forward = get_forward_distance(lidar);
 
 	if (forward > LIMIT_WALL && lidar[31] > 10 && lidar[0] > 10) {
 		dprintf(2, "\t\tGo FORWARD\n");
@@ -45,8 +45,9 @@ bool manage_lidar(float *lidar, car_t *info)
 		info->speed = GO_SPEED_MAX;
 		return (true);
 	}
-	info->speed = accelerate_car(lidar, forward);
-	info->direction = direction_car(lidar, info->speed);
+	//info->speed = accelerate_car(lidar, forward);
+	info->speed = SPEED_DRIFT;
+	info->direction = direction_car(lidar, info->speed, forward);
 	return (true);
 }
 
@@ -80,6 +81,7 @@ bool stop_car(void)
 			free(buffer);
 			return (false);
 		}
+		dprintf(2, "End update\n");
 		buffer = destroy_buffer(buffer);
 		free(lidar);
 	}

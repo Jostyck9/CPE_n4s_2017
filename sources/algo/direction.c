@@ -28,7 +28,7 @@ float adapt_dir_to_speed(float dir, float dist)
 	return (result);
 }
 
-float direction_car(float *lidar, float speed)
+float direction_car(float *lidar, float speed, float forward)
 {
 	float medium_l = 0;
 	float medium_r = 0;
@@ -45,7 +45,6 @@ float direction_car(float *lidar, float speed)
 	if (average > 0) {
 		if (medium_l != 0)
 			result = ((medium_r / medium_l));
-//revoir calcul result -^
 		result = adapt_dir_to_speed(result, lidar[15]);
 	} else if (average < 0) {
 		if (medium_r != 0)
