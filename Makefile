@@ -43,7 +43,7 @@ re:		fclean all
 
 tests_run :
 			make -C tests/
-			./units
+			./tests/units
 
 tests_fclean :
 				make fclean -C tests/

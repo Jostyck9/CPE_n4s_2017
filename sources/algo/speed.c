@@ -9,13 +9,17 @@
 #include <stdlib.h>
 #include "ai.h"
 
-float accelerate_car(float *lidar, float dist)
+float accelerate_car(float *lidar, float dir)
 {
-	float speed;
+	float speed = 0;
 
 	if (lidar == NULL)
 		return (0.5);
-	speed = ((dist * SPEED_DRIFT) / LIMIT_WALL);
-	dprintf(2, "\t\tspeed %f\n", speed);
+	if (dir < 0)
+		dir *= -1;
+	if (dir < 0.2)
+		dir = 0.2;
+	speed = SPEED_DRIFT * dir;
+//	dprintf(2, "\t\tspeed %f\n", speed);
 	return (speed);
 }
