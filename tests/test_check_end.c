@@ -1,5 +1,5 @@
 /*
-1;4804;0c** EPITECH PROJECT, 2017
+** EPITECH PROJECT, 2017
 ** test_check_end.c
 ** File description:
 ** tests function check_end.

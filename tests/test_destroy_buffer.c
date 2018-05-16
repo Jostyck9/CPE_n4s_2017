@@ -10,31 +10,43 @@
 
 Test(destroy_buffer, good_output)
 {
-	char str[] = "1:OK:No errors so far:Track Cleared";
+	char *str = malloc(sizeof(char) * 5);
+	char *cpy = "1:OK";
 
-	cr_assert_str_eq(NULL, destroy_buffer(str));
+	for (int i = 0; cpy[i] != '\0'; i++)
+		str[i] = cpy[i];
+	str[4] = '\0';
+	cr_expect_eq(NULL, destroy_buffer(str));
 }
 
 Test(destroy_buffer, good_output2)
 {
-	cr_assert_str_eq(NULL, destroy_buffer(NULL));
+	cr_assert_eq(NULL, destroy_buffer(NULL));
 }
 
 Test(destroy_buffer, bad_output)
 {
-	char str[] = "Hello World.";
+	char *str = malloc(sizeof(char) * 5);
+	char *cpy = "1:OK";
 
-	cr_assert_str_neq("Hello World.", destroy_buffer(str));
+	for (int i = 0; cpy[i] != '\0'; i++)
+		str[i] = cpy[i];
+	str[4] = '\0';
+	cr_assert_neq(str, destroy_buffer(str));
 }
 
 Test(destroy_buffer, bad_output2)
 {
-	cr_assert_str_neq("Hello world.", destroy_buffer(NULL));
+	cr_assert_neq("Hello world.", destroy_buffer(NULL));
 }
 
 Test(destroy_buffer, bad_output3)
 {
-	char str[] = "Yes my lord.";
+	char *str = malloc(sizeof(char) * 5);
+	char *cpy = "1:OK";
 
-	cr_assert_str_neq("Hello world.", destroy_buffer(str));
+	for (int i = 0; cpy[i] != '\0'; i++)
+		str[i] = cpy[i];
+	str[4] = '\0';
+	cr_assert_neq("Hello world.", destroy_buffer(str));
 }
