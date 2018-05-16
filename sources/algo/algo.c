@@ -37,7 +37,7 @@ bool manage_lidar(float *lidar, car_t *info)
 {
 	float forward = get_forward_distance(lidar, info);
 
-	if (forward > (LIMIT_WALL) && lidar[31] > 10 && lidar[0] > 10) {
+	if (forward > LIMIT_WALL && lidar[31] > 10 && lidar[0] > 10) {
 		dprintf(2, "\t\tGo FORWARD\n");
 		is_too_close_wall(lidar, info);
 		dprintf(2, "\t\tdirectoin %f\n", info->direction);
