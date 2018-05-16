@@ -22,7 +22,7 @@ float adapt_dir_to_speed(float dir, float dist)
 	float result = 0;
 
 //	dprintf(2, "\t\tBefore adapting %f\n", dir);
-	result = dir * (1 - (dist / LIMIT_WALL));
+	result = dir * (1 - (dist / LIMIT_WALL)) * COEF_ROTATE;
 	if (result > 1)
 		result = 1;
 	return (result);
