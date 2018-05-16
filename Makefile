@@ -6,6 +6,7 @@
 ##
 
 SRC	=	sources/main.c \
+		sources/destroy_buffer.c	\
 		sources/printing_functions.c	\
 		sources/check_end.c \
 		sources/sending_command.c \
@@ -23,7 +24,7 @@ NAME	=	ai
 
 INC	=	-I./include
 
-CFLAGS	=	$(INC) -Wextra -Wall 
+CFLAGS	=	$(INC) -Wextra -Wall
 
 CC	=	gcc
 
