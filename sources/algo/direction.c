@@ -17,41 +17,38 @@ float calc_medium(float val1, float val2)
 	return (result);
 }
 
-float adapt_dir_to_speed(float dir, float dist)
+float adapt_dir_to_dist(float big, float minus, float dist)
 {
 	float result = 0;
 
-//	dprintf(2, "\t\tBefore adapting %f\n", dir);
-	result = dir * (1 - (dist / LIMIT_WALL)) * COEF_ROTATE;
+	result = (minus / big) * COEF_ROTATE;
+	dprintf(2, "\t\tBefore adapting %f\n", result);
+	result = result * (1 - (dist / (LIMIT_WALL)));
 	if (result > 1)
 		result = 1;
+	if (result < 0.1)
+		result = 0.1;
 	return (result);
 }
 
 float direction_car(float *lidar, float speed, float forward)
 {
-	float medium_l = speed - speed;
-	float medium_r = forward - forward;
+	float medium_l = 0;
+	float medium_r = 0;
 	float result = 0;
-	float average = 0;
 
 	if (lidar == NULL) {
 		return (0);
 	}
 	medium_l = calc_medium(lidar[0], lidar[1]);
 	medium_r = calc_medium(lidar[30], lidar[31]);
-//	dprintf(2, "\t\tmedium_l %f && medium_r %f\n", medium_l, medium_r);
-	average = medium_l - medium_r;
-	if (average > 0) {
-		if (medium_l != 0)
-			result = (medium_r / medium_l);
-		result = adapt_dir_to_speed(result, lidar[15]);
-	} else if (average < 0) {
-		if (medium_r != 0)
-			result = ((medium_l / medium_r));
-		result = adapt_dir_to_speed(result, lidar[15]);
+	dprintf(2, "\t\tmedium_l %f && medium_r %f\n", medium_l, medium_r);
+	if (medium_l > medium_r) {
+		result = adapt_dir_to_dist(medium_l, medium_r, forward);
+	} else if (medium_r > medium_l) {
+		result = adapt_dir_to_dist(medium_r, medium_l, forward);
 		result *= -1;
 	}
-//	dprintf(2, "\t\tdirection : %f\n", result);
+	dprintf(2, "\t\tdirection : %f\n", result);
 	return (result);
 }
