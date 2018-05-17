@@ -38,6 +38,24 @@ bool manage_lidar(float *lidar, car_t *info)
 	return (true);
 }
 
+bool end_track(car_t info)
+{
+	bool end = false;
+	char *buffer = NULL;
+
+	info.speed = 0;
+	if (update_car(info, &end) == false) {
+		return (false);
+	}
+	buffer = send_command_value_int(CYCLE_WAIT, 5);
+	if (buffer == NULL || check_if_ko(buffer) == true) {
+		destroy_buffer(buffer);
+		return (false);
+	}
+	destroy_buffer(buffer);
+	return (true);
+}
+
 bool stop_car(void)
 {
 	float *lidar;
@@ -72,5 +90,5 @@ bool stop_car(void)
 		buffer = destroy_buffer(buffer);
 		free(lidar);
 	}
-	return (true);
+	return (end_track(info));
 }

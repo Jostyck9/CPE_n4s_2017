@@ -34,6 +34,24 @@ char *send_command(char *cmd)
 	return (buffer);
 }
 
+char *send_command_value_int(char *cmd, int value)
+{
+	char *buffer = NULL;
+
+	if (cmd == NULL) {
+		return (NULL);
+	}
+	buffer = malloc(sizeof(*buffer) * (snprintf(NULL, 0, cmd, value) + 1));
+	if (buffer == NULL) {
+		return (NULL);
+	}
+	sprintf(buffer, cmd, value);
+	my_putstr(buffer);
+	free(buffer);
+	buffer = recup_std_input();
+	return (buffer);
+}
+
 char *send_command_value(char *cmd, float value)
 {
 	char *buffer = NULL;
