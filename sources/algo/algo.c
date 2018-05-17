@@ -32,8 +32,8 @@ bool manage_lidar(float *lidar, car_t *info)
 		info->speed = GO_SPEED_MAX;
 		return (true);
 	}
-	//info->speed = accelerate_car(lidar, forward);
-	info->speed = SPEED_DRIFT;
+	info->speed = accelerate_car(forward);
+//	info->speed = SPEED_DRIFT;
 	info->direction = direction_car(lidar, info->speed, forward);
 	return (true);
 }
@@ -43,9 +43,9 @@ bool stop_car(void)
 	float *lidar;
 	char *buffer;
 	bool end = false;
-	car_t info = {0, 0};
+	car_t info = {1, 1};
 
-	while (end == false) {
+	while (end == false && info.speed != 0) {
 		buffer = send_command(LIDAR_CAR);
 		if (buffer == NULL || check_if_ko(buffer) == true)
 			return (false);

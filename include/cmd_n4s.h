@@ -9,7 +9,7 @@
 #define _CMD_N4S_H_
 
 #define GO_SPEED_MAX (1)
-#define COEF_ROTATE (1)
+#define COEF_ROTATE (1.3)
 #define LIMIT_WALL_DRIFT (300)
 #define LIMIT_WALL (1000)
 #define SPEED_DRIFT (0.8)

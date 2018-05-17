@@ -24,7 +24,7 @@ void my_putstr_error(char *str);
 void my_putstr(char *str);
 char *send_command_value(char *cmd, float value);
 char *send_command(char *cmd);
-float accelerate_car(float *lidar, float dist);
+float accelerate_car(float dist);
 float *get_lidar(char *buffer);
 bool stop_car(void);
 char *destroy_buffer(char *buffer);
