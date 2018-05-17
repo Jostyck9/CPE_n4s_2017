@@ -49,7 +49,5 @@ res[k - 1] == -1)) {
 		k++;
 	}
 	free(str);
-//	for (int z = 0; res[z] != -1; z++)
-//		dprintf(2, "%i : %f\n", z, res[z]);
 	return (res);
 }

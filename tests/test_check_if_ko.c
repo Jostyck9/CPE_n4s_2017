@@ -12,14 +12,14 @@ Test(check_if_ko, good_input)
 {
 	char *str = "1:KO:No errors so far:Track Cleared";
 
-	cr_assert_eq(true,  check_if_ko(str));
+	cr_assert_eq(true, check_if_ko(str));
 }
 
 Test(check_if_ko, good_input2)
 {
 	char *str = "1:OK:No errors so far:Track Cleared";
 
-	cr_assert_eq(false,  check_if_ko(str));
+	cr_assert_eq(false, check_if_ko(str));
 }
 
 Test(check_if_ko, bad_input_but_work)

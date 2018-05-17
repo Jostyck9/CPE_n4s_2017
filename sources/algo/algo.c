@@ -33,8 +33,7 @@ bool manage_lidar(float *lidar, car_t *info)
 		return (true);
 	}
 	info->speed = accelerate_car(forward);
-//	info->speed = SPEED_DRIFT;
-	info->direction = direction_car(lidar, info->speed, forward);
+	info->direction = direction_car(lidar, forward);
 	return (true);
 }
 
@@ -56,9 +55,31 @@ bool end_track(car_t info)
 	return (true);
 }
 
+bool lidar(char *buffer, car_t info, bool end)
+{
+	float *lidar  = get_lidar(buffer);
+
+	if (lidar == NULL) {
+		free(buffer);
+		return (false);
+	}
+	if (manage_lidar(lidar, &info) == false) {
+		free(lidar);
+		free(buffer);
+		return (false);
+	}
+	if (update_car(info, &end) == false) {
+		free(lidar);
+		free(buffer);
+		return (false);
+	}
+	buffer = destroy_buffer(buffer);
+	free(lidar);
+	return (true);
+}
+
 bool stop_car(void)
 {
-	float *lidar;
 	char *buffer;
 	bool end = false;
 	car_t info = {1, 1};
@@ -71,24 +92,8 @@ bool stop_car(void)
 			free(buffer);
 			break;
 		}
-		lidar = get_lidar(buffer);
-		if (lidar == NULL) {
-			free(buffer);
+		if (lidar(buffer, info, end) == false)
 			return (false);
-		}
-		if (manage_lidar(lidar, &info) == false) {
-			free(lidar);
-			free(buffer);
-			return (false);
-		}
-		if (update_car(info, &end) == false) {
-			free(lidar);
-			free(buffer);
-			return (false);
-		}
-//		dprintf(2, "End update\n");
-		buffer = destroy_buffer(buffer);
-		free(lidar);
 	}
 	return (end_track(info));
 }

@@ -31,15 +31,14 @@ float adapt_dir_to_dist(float big, float minus, float dist)
 	return (result);
 }
 
-float direction_car(float *lidar, float speed, float forward)
+float direction_car(float *lidar, float forward)
 {
 	float medium_l = 0;
 	float medium_r = 0;
 	float result = 0;
 
-	if (lidar == NULL) {
+	if (lidar == NULL)
 		return (0);
-	}
 	medium_l = calc_medium(lidar[0], lidar[1]);
 	medium_r = calc_medium(lidar[30], lidar[31]);
 	dprintf(2, "\t\tmedium_l %f && medium_r %f\n", medium_l, medium_r);

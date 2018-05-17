@@ -13,7 +13,7 @@ void put_direction_close_wall(float dist, car_t *info, bool neg)
 {
 	float warn = dist;
 	float dir = warn;
-	
+
 	dir = 0.05;
 	if (neg)
 		dir *= -1;
