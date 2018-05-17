@@ -11,8 +11,10 @@
 
 void put_direction_close_wall(float dist, car_t *info, bool neg)
 {
-	float dir = 0.05;
-
+	float warn = dist;
+	float dir = warn;
+	
+	dir = 0.05;
 	if (neg)
 		dir *= -1;
 	info->direction = dir;
@@ -23,10 +25,10 @@ bool is_too_close_wall(float *lidar, car_t *info)
 	float left_value = lidar[0];
 	float right_value = lidar[31];
 
-	if (left_value > 2 * right_value) {
+	if (left_value > 3 * right_value) {
 		put_direction_close_wall(right_value, info, false);
 		return (true);
-	} else if (right_value > 2 * left_value) {
+	} else if (right_value > 3 * left_value) {
 		put_direction_close_wall(left_value, info, true);
 		return (true);
 	}
