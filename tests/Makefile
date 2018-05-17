@@ -16,6 +16,8 @@ SRC_UT_DIR	=	$(realpath .)
 SRC_UT		=	$(SRC_UT_DIR)/test_check_end.c		\
 			$(SRC_UT_DIR)/test_check_if_ko.c	\
 			$(SRC_UT_DIR)/test_destroy_buffer.c	\
+			$(SRC_UT_DIR)/test_check_end2.c		\
+			$(SRC_UT_DIR)/test_check_if_ko2.c	\
 
 INC		=	-I ../include
 
