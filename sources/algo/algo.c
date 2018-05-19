@@ -55,7 +55,7 @@ bool end_track(car_t info)
 	return (true);
 }
 
-bool lidar(char *buffer, car_t info, bool end)
+bool lidar(char *buffer, car_t *info, bool *end)
 {
 	float *lidar  = get_lidar(buffer);
 
@@ -63,12 +63,12 @@ bool lidar(char *buffer, car_t info, bool end)
 		free(buffer);
 		return (false);
 	}
-	if (manage_lidar(lidar, &info) == false) {
+	if (manage_lidar(lidar, info) == false) {
 		free(lidar);
 		free(buffer);
 		return (false);
 	}
-	if (update_car(info, &end) == false) {
+	if (update_car(info[0], end) == false) {
 		free(lidar);
 		free(buffer);
 		return (false);
@@ -92,7 +92,7 @@ bool stop_car(void)
 			free(buffer);
 			break;
 		}
-		if (lidar(buffer, info, end) == false)
+		if (lidar(buffer, &info, &end) == false)
 			return (false);
 	}
 	return (end_track(info));

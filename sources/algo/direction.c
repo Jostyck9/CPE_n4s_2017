@@ -28,6 +28,7 @@ float adapt_dir_to_dist(float big, float minus, float dist)
 		result = 1;
 	if (result < 0.1)
 		result = 0.1;
+	dprintf(2, "\t\tBefore adapting %f\n", result);
 	return (result);
 }
 
