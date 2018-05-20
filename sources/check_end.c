@@ -19,6 +19,8 @@ bool check_cmd_end(char *cmd)
 		token = strtok(str, ":");
 		str = NULL;
 		if (token != NULL && strcmp(token, END_STR) == 0) {
+			token = strtok(str, ":");
+			dprintf(2, "Track Cleared %s", token);
 			free(cmd);
 			return (true);
 		}

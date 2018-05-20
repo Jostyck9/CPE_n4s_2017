@@ -9,21 +9,15 @@ SRC_DIR		=	$(realpath ..)
 
 SRC		=	$(SRC_DIR)/sources/check_end.c		\
 			$(SRC_DIR)/sources/algo/check_if_ko.c	\
-#			$(SRC_DIR)/sources/get_lidar.c		\
-			$(SRC_DIR)/sources/sending_command.c	\
-			$(SRC_DIR)/sources/printing_functions.c	\
-			$(SRC_DIR)/sources/algo/algo.c		\
-			$(SRC_DIR)/sources/algo/close_wall.c	\
-			$(SRC_DIR)/sources/algo/update_car.c	\
-			$(SRC_DIR)/sources/algo/speed.c		\
-			$(SRC_DIR)/sources/algo/cost.c		\
-			$(SRC_DIR)/sources/algo/direction.c	\
-			$(SRC_DIR)/sources/main.c		\
+			$(SRC_DIR)/sources/destroy_buffer.c	\
 
 SRC_UT_DIR	=	$(realpath .)
 
 SRC_UT		=	$(SRC_UT_DIR)/test_check_end.c		\
 			$(SRC_UT_DIR)/test_check_if_ko.c	\
+			$(SRC_UT_DIR)/test_destroy_buffer.c	\
+			$(SRC_UT_DIR)/test_check_end2.c		\
+			$(SRC_UT_DIR)/test_check_if_ko2.c	\
 
 INC		=	-I ../include
 

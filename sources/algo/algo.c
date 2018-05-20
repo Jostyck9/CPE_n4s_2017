@@ -15,8 +15,8 @@ float get_forward_distance(float *lidar)
 
 	if (lidar == NULL)
 		return (0);
-	result = (lidar[13] + lidar[14] + lidar[15]);
-	result /= 3;
+	result = (lidar[16] + lidar[14] + lidar[15] + lidar[17]);
+	result /= 4;
 	return (result);
 }
 
@@ -24,28 +24,64 @@ bool manage_lidar(float *lidar, car_t *info)
 {
 	float forward = get_forward_distance(lidar);
 
-	if (forward > LIMIT_WALL && lidar[31] > 10 && lidar[0] > 10) {
-//		dprintf(2, "\t\tGo FORWARD\n");
+	if (forward > LIMIT_WALL) {
 		is_too_close_wall(lidar, info);
-//		dprintf(2, "\t\tdirectoin %f\n", info->direction);
-//		dprintf(2, "\t\tspeed %f\n", info->speed);
 		info->speed = GO_SPEED_MAX;
 		return (true);
 	}
-	//info->speed = accelerate_car(lidar, forward);
-	info->speed = SPEED_DRIFT;
-	info->direction = direction_car(lidar, info->speed, forward);
+	info->speed = accelerate_car(forward);
+	info->direction = direction_car(lidar, forward);
+	return (true);
+}
+
+bool end_track(car_t info)
+{
+	bool end = true;
+	char *buffer = NULL;
+
+	info.speed = 0;
+	if (update_car(info, &end) == false) {
+		return (false);
+	}
+	buffer = send_command_value_int(CYCLE_WAIT, 5);
+	if (buffer == NULL || check_if_ko(buffer) == true) {
+		destroy_buffer(buffer);
+		return (false);
+	}
+	destroy_buffer(buffer);
+	return (true);
+}
+
+bool lidar(char *buffer, car_t *info, bool *end)
+{
+	float *lidar  = get_lidar(buffer);
+
+	if (lidar == NULL) {
+		free(buffer);
+		return (false);
+	}
+	if (manage_lidar(lidar, info) == false) {
+		free(lidar);
+		free(buffer);
+		return (false);
+	}
+	if (update_car(info[0], end) == false) {
+		free(lidar);
+		free(buffer);
+		return (false);
+	}
+	buffer = destroy_buffer(buffer);
+	free(lidar);
 	return (true);
 }
 
 bool stop_car(void)
 {
-	float *lidar;
 	char *buffer;
 	bool end = false;
-	car_t info = {0, 0};
+	car_t info = {1, 1};
 
-	while (end == false) {
+	while (end == false && info.speed != 0) {
 		buffer = send_command(LIDAR_CAR);
 		if (buffer == NULL || check_if_ko(buffer) == true)
 			return (false);
@@ -53,24 +89,8 @@ bool stop_car(void)
 			free(buffer);
 			break;
 		}
-		lidar = get_lidar(buffer);
-		if (lidar == NULL) {
-			free(buffer);
+		if (lidar(buffer, &info, &end) == false)
 			return (false);
-		}
-		if (manage_lidar(lidar, &info) == false) {
-			free(lidar);
-			free(buffer);
-			return (false);
-		}
-		if (update_car(info, &end) == false) {
-			free(lidar);
-			free(buffer);
-			return (false);
-		}
-//		dprintf(2, "End update\n");
-		buffer = destroy_buffer(buffer);
-		free(lidar);
 	}
-	return (true);
+	return (end_track(info));
 }

@@ -17,6 +17,7 @@ bool check_if_ko(char *buffer)
 		return (true);
 	for (; buffer[i] != ':' && buffer[i] != '\0'; i++);
 	if (buffer[i] == '\0' || buffer[i + 1] == 'K') {
+		dprintf(2, "Error: %s", buffer);
 		return (true);
 	}
 	return (false);

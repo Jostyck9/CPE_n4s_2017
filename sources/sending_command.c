@@ -16,7 +16,6 @@ char *recup_std_input(void)
 	char *buffer = NULL;
 
 	if (getline(&buffer, &size, stdin) != -1) {
-//		my_putstr_error(buffer);
 		return (buffer);
 	}
 	return (NULL);
@@ -30,6 +29,24 @@ char *send_command(char *cmd)
 		return (NULL);
 	}
 	my_putstr(cmd);
+	buffer = recup_std_input();
+	return (buffer);
+}
+
+char *send_command_value_int(char *cmd, int value)
+{
+	char *buffer = NULL;
+
+	if (cmd == NULL) {
+		return (NULL);
+	}
+	buffer = malloc(sizeof(*buffer) * (snprintf(NULL, 0, cmd, value) + 1));
+	if (buffer == NULL) {
+		return (NULL);
+	}
+	sprintf(buffer, cmd, value);
+	my_putstr(buffer);
+	free(buffer);
 	buffer = recup_std_input();
 	return (buffer);
 }

@@ -10,26 +10,19 @@
 #include <stdlib.h>
 #include "ai.h"
 
-char *destroy_buffer(char *buffer)
-{
-	if (buffer == NULL) {
-		return (NULL);
-	}
-	free(buffer);
-	return (NULL);
-}
-
 int main(void)
 {
 	char *buffer = NULL;
 
 	buffer = send_command(START_N4S);
+	dprintf(2, "Start Simulation\n");
 	if (buffer == NULL || check_if_ko(buffer) == true)
 		return (84);
 	buffer = destroy_buffer(buffer);
 	if (stop_car() == false)
 		return (84);
 	buffer = send_command(STOP_N4S);
+	dprintf(2, "Stop Simulation\n");
 	if (buffer == NULL || check_if_ko(buffer) == true)
 		return (84);
 	buffer = destroy_buffer(buffer);
