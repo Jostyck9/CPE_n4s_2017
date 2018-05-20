@@ -13,11 +13,12 @@ float accelerate_car(float dist)
 {
 	float speed = 0;
 
-	if (dist < 200)
+	if (dist < 200) {
+		dprintf(2, "Dead end\n");
 		return (0);
+	}
 	if (dist < LIMIT_WALL_DRIFT)
 		dist = LIMIT_WALL_DRIFT;
 	speed = SPEED_DRIFT * (dist / LIMIT_WALL);
-	dprintf(2, "\t\tspeed %f\n", speed);
 	return (speed);
 }

@@ -25,10 +25,7 @@ bool manage_lidar(float *lidar, car_t *info)
 	float forward = get_forward_distance(lidar);
 
 	if (forward > LIMIT_WALL) {
-		dprintf(2, "\t\tGo FORWARD\n");
 		is_too_close_wall(lidar, info);
-		dprintf(2, "\t\tdirectoin %f\n", info->direction);
-		dprintf(2, "\t\tspeed %f\n", info->speed);
 		info->speed = GO_SPEED_MAX;
 		return (true);
 	}
@@ -39,7 +36,7 @@ bool manage_lidar(float *lidar, car_t *info)
 
 bool end_track(car_t info)
 {
-	bool end = false;
+	bool end = true;
 	char *buffer = NULL;
 
 	info.speed = 0;

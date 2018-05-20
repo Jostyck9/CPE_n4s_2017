@@ -21,7 +21,8 @@ bool update_speed(car_t info, bool *end)
 			destroy_buffer(buffer);
 			return (false);
 		}
-		end[0] = check_end(buffer);
+		if (end[0] != true)
+			end[0] = check_end(buffer);
 		destroy_buffer(buffer);
 	}
 	return (true);

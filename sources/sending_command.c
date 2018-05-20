@@ -16,7 +16,6 @@ char *recup_std_input(void)
 	char *buffer = NULL;
 
 	if (getline(&buffer, &size, stdin) != -1) {
-		my_putstr_error(buffer);
 		return (buffer);
 	}
 	return (NULL);
